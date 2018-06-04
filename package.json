@@ -1,0 +1,33 @@
+{
+  "name": "dxl",
+  "version": "0.1.0",
+  "description": "Divsense Extensible Language",
+  "main": "index.js",
+  "scripts": {
+    "test": "test",
+    "pegjs": "pegjs"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/divsense/dxl.git"
+  },
+  "keywords": [
+    "divsense",
+    "parser"
+  ],
+  "author": "Oleg Kirichenko",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/divsense/dxl/issues"
+  },
+  "homepage": "https://github.com/divsense/dxl#readme",
+  "devDependencies": {
+    "chai": "^4.1.2",
+    "mocha": "^5.2.0",
+    "pegjs": "^0.10.0"
+  },
+  "dependencies": {
+    "ramda": "^0.25.0",
+    "uuid": "^3.2.1"
+  }
+}

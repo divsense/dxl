@@ -1,0 +1,299 @@
+## Example 1. Home pseudo-extension
+```
+extension
+{
+    name { "home" }
+
+    version { "1.0.0" }
+
+    title { "Divsense Home Nob" }
+
+    text { "Disvsense" }
+
+    settings {
+        category {
+            name { "storage" }
+
+            item {
+                name { "type" }
+
+                values {
+                    "local"
+                    "cloud"
+                }
+
+                default-value { "local" }
+            }
+
+        }
+
+        category {
+            name { "style" }
+
+            item {
+                name { "color" }
+                title { "Color" }
+                default-value { "black" }
+            }
+        }
+    }
+
+    mode { fixed }
+
+    props {
+
+        item {
+            name { "left" }
+            value {}
+        }
+
+        item {
+            name { "right" }
+            value {}
+        }
+
+
+    }
+}
+```
+
+## Example 2. Text node pseudo-extension
+```
+extension
+{
+    name { "text" }
+
+    version { "1.0.0" }
+
+    title { "Divsense Text Node" }
+
+    text { "" }
+
+    settings {
+        category {
+            name { "style" }
+
+            item {
+                name { "color" }
+                value { "black" }
+            }
+
+            category {
+                name { "font" }
+
+                item {
+                    name { "weight" }
+                    value { "normal" }
+                }
+
+                item {
+                    name { "style" }
+                    value { "normal" }
+                }
+            }
+        }
+    }
+}
+```
+
+## Example 2. Home nob instanse
+```
+home.text("My Divsense")
+    .settings/style/color("red")
+    .props/left(0)
+    .props/right(1,2)
+    {
+        123
+        "Hello,"
+        {
+            "Divsense!"
+            "world!".settings/style/color("blue")
+                    .settings/font/style("italic")
+        }
+    }
+}
+```
+
+## Example 2. Extension definition
+```
+extension
+{
+    name { "calc" }
+
+    version { "1.0.0" }
+
+    title { "Divsense Calculator" }
+
+    options {
+        item {
+            name { "precision" }
+            default-value { 2 }
+        }
+    }
+
+    lib {
+        name { "x" }
+        type { "rio" }
+        source { "mart::divsense/calc/init" }
+    }
+
+    lib {
+        name { "a" }
+        type { "rio" }
+        source { "mart::divsense/calc/produce" }
+    }
+
+    lib {
+        name { "b" }
+        type { "rio" }
+        source { "mart::divsense/calc/report" }
+    }
+
+    class {
+
+        consumer { true }
+
+        settings {
+            item {
+                name { "precision" }
+                default-value { 2 }
+            }
+        }
+
+        term {
+            name { "number" }
+            match {
+                deny {
+                    parent { "text" }
+                }
+            }
+            produce {
+                lib { "a" }
+                method { "asNumber" }
+            }
+        }
+
+        nob {
+            name { "sum" }
+
+            decor {
+                right {
+                    tail {
+                        text { "&#8592; &#8721;" }
+                    }
+                }
+
+                left {
+                    tail {
+                        text { "&#8721; &#8594;" }
+                    }
+                }
+            }
+
+            produce {
+                method { "summa" }
+                lib { "a" }
+            
+            }
+            
+            panel {
+                name { "sum-mobile" }
+                lib { "b" }
+                method { "summa" }
+            }
+
+        }
+
+        nob {
+            name { "prod" }
+            decor {
+                right {
+                    tail {
+                        text { "&#8592; &#8721;" }
+                    }
+                }
+                left {
+                    tail {
+                        text { "&#8721; &#8594;" }
+                    }
+                }
+            }
+            produce {
+                method { "summa" }
+                lib { "a" }
+            }
+
+            init {
+                lib { "x" }
+                methos { "initProd" }
+            }
+        }
+
+        nob {
+            name { "phi" }
+            decor {
+                right {
+                    tail {
+                        text { "&#8592; phi" }
+                    }
+                }
+                left {
+                    tail {
+                        text { "phi &#8594;" }
+                    }
+                }
+            }
+
+            init {
+                calc:divide {
+                    calc:sum { "1" calc:sqrt { "5" } }
+                    "2"
+                }
+            }
+        }
+    }
+}
+```
+
+## Example 3. Using Calculator
+```bash
+
+$ divsense -d -i baz.dxl -o foo.txt
+
+```
+```
+home.settings(url("https://foo.com/bar/baz") auth('username"))
+    .use[ mart.url("divsense/calc").options(precision:3)
+          mart.url("thirdparty/calc-plus")]
+    {
+        calc:sum.product(value("fsdfdsfdsf") type("string") expire("")) {
+
+            1 { "One" }
+
+            2 { "Two" }
+
+            5 { "Two" }
+
+            home.setting(url("gitst.com"))
+
+            calc:prod.settings(precision(2)) {
+                3 {
+                    "Three"
+                }
+                calc-plus:xsi { 4 5 }
+            }
+
+            home.settings(url:"https://some.ext.com/calc", token:"56465465436436")
+                .index(0)
+
+            home.settings(url:"https://another.com/calc")
+                .tag("Expenses")
+
+            home.settings(url:"https://another.com/calc")
+
+        }
+    }
+
+```
+
+
